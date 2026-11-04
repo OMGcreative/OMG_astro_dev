@@ -1,0 +1,152 @@
+---
+import Logo from "./Logo.astro";
+
+interface Props {
+  variant?: "light" | "dark";
+}
+
+const { variant = "light" } = Astro.props;
+---
+
+<header class:list={["header", `header--${variant}`]}>
+  <div class="header__inner">
+    <Logo />
+
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="menu-toggle__line"></span>
+      <span class="menu-toggle__line"></span>
+      <span class="menu-toggle__line"></span>
+    </button>
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <ul class="nav__list">
+      <li><a href="/about/" class="nav__link">About</a></li>
+      <li><a href="/projects/" class="nav__link">Projects</a></li>
+      <li><a href="/what-we-do/" class="nav__link">What We Do</a></li>
+      <li><a href="#contact" class="nav__link">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 30px 40px 0;
+    transition: background-color var(--transition-medium);
+    mix-blend-mode: exclusion;
+  }
+
+  body.nav-open header {
+    mix-blend-mode: unset;
+  }
+
+  .header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 88888;
+    position: relative;
+  }
+
+  .header--light {
+    color: var(--mono);
+  }
+
+  .header--dark {
+    color: var(--white);
+  }
+
+  /* Menu Toggle (Hamburger) */
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .menu-toggle__line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: white;
+    transition: all var(--transition-fast);
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle[aria-expanded="true"] .menu-toggle__line:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    /*    max-width: 400px; */
+    height: 100vh;
+    background-color: var(--mono);
+    padding: 120px 60px 60px;
+    transform: translateX(100%);
+    transition: transform var(--transition-medium);
+    z-index: 999;
+  }
+
+  .nav.is-open {
+    transform: translateX(0);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .nav__link {
+    font-size: var(--h3-size);
+    font-weight: 600;
+    color: var(--white);
+    transition: opacity var(--transition-fast);
+  }
+
+  .nav__link:hover {
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+    .header {
+      padding: 20px;
+    }
+
+    .nav {
+      max-width: 100%;
+      padding: 100px 40px 40px;
+    }
+
+    .nav__link {
+      font-size: var(--h4-size);
+    }
+  }
+</style>
+
+<script>
+  import "../scripts/menu.js";
+</script>

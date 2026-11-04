@@ -1,0 +1,38 @@
+/* ===================================
+   OMG Creative - Utility Classes
+   Container, section, and helper classes
+   =================================== */
+
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.section--light {
+    background-color: var(--F4F4F4);
+    color: var(--mono);
+}
+
+.section--dark {
+    background-color: var(--mono);
+    color: var(--white);
+}
+
+.text-white {
+    color: var(--white);
+}
+
+.text-dark {
+    color: var(--mono);
+}

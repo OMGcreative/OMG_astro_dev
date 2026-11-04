@@ -1,0 +1,213 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Our Projects :: Creative Agency Melbourne - OMG! Creative",
+  description = "Explore our latest work and creative projects. We help brands find their unique voice.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_AU" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      import "../scripts/observers.js";
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  @import "../styles/global.css";
+
+  /* Project List Specific Global Styles */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 0;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .filter-container {
+    /* padding: 60px 0; */
+    padding: 20px 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--DDDDDE);
+    /* position: sticky;
+    top: 90px;
+    z-index: 90; */
+    position: relative;
+    z-index: 1111;
+    transition: padding var(--transition-medium);
+  }
+
+  .filter-container.is-collapsed {
+    /* padding: 20px 0; */
+  }
+
+  .filter-container__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .filter-container.is-collapsed .filter-container__inner {
+    align-items: center;
+  }
+
+  .filter-groups-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+    max-height: 1000px;
+    opacity: 1;
+    transition:
+      max-height 0.4s ease,
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .filter-container.is-collapsed .filter-groups-wrapper {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+  }
+
+  .filter-switch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    margin-left: 40px;
+    margin-right: 80px;
+    flex-shrink: 0;
+  }
+
+  .filter-switch__text {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--mono);
+  }
+
+  .filter-switch__control {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    display: block;
+  }
+
+  .filter-switch__control input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  .filter-switch__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--DDDDDE);
+    transition: 0.3s ease;
+    border-radius: 24px;
+  }
+
+  .filter-switch__slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s ease;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  input:checked + .filter-switch__slider {
+    background-color: var(--mono);
+  }
+
+  input:checked + .filter-switch__slider:before {
+    transform: translateX(20px);
+  }
+
+  .filter-btn {
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 5px 12px;
+    border: 1px solid var(--DDDDDE);
+    border-radius: 20px;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn.active {
+    background-color: var(--mono);
+    border-color: var(--mono);
+    color: var(--white);
+  }
+
+  .filter-btn.disabled {
+    opacity: 0.25;
+    pointer-events: none;
+    cursor: default;
+    border-style: dashed;
+  }
+
+  @media (max-width: 992px) {
+    .filter-switch {
+      margin-right: 60px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .filter-switch {
+      margin-right: 40px;
+    }
+    .filter-switch__text {
+      display: none;
+    }
+  }
+</style>

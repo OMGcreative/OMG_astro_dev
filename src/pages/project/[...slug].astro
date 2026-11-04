@@ -1,0 +1,307 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import ContactSection from "../../components/ContactSection.astro";
+import ProjectThumbnail from "../../components/ProjectThumbnail.astro";
+import ProjectHero from "../../components/ProjectHero.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+// Fetch 3 related projects (excluding current)
+const allProjects = await getCollection("projects");
+const relatedProjects = allProjects
+  .filter((p) => p.id !== project.id)
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 3);
+---
+
+<Layout
+  title={`${project.data.title} :: OMG Creative Case Study`}
+  description={project.data.description}
+>
+  <Header variant="dark" />
+
+  <main class="project-detail">
+    <ProjectHero
+      category={project.data.category}
+      title={project.data.title}
+      logoSrc={project.data.logoSrc}
+      videoUrl={project.data.videoUrl}
+      posterUrl={project.data.posterUrl}
+    />
+
+    <!-- INTRO SECTION -->
+    <section class="project-intro section">
+      <div class="container project-intro__grid">
+        <div class="project-intro__metadata animate-on-scroll">
+          <div class="meta-item">
+            <span class="meta-item__label">Client</span>
+            <span class="meta-item__value"
+              >{
+                project.data.client || project.data.brand || "Confidential"
+              }</span
+            >
+          </div>
+          {
+            project.data.tags && (
+              <div class="meta-item">
+                <span class="meta-item__label">Focus</span>
+                <div class="meta-item__tags">
+                  {project.data.tags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+        </div>
+
+        <div
+          class="project-intro__description animate-on-scroll"
+          style="transition-delay: 100ms;"
+        >
+          <h2 class="project-intro__lead">
+            {project.data.description}
+          </h2>
+          <div class="project-intro__body">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY SECTION (Modular) -->
+    {
+      project.data.gallery && project.data.gallery.length > 0 && (
+        <section class="project-gallery section">
+          <div class="container gallery-grid">
+            {project.data.gallery.map((img, index) => (
+              <div
+                class:list={[
+                  "gallery-item",
+                  "animate-on-scroll",
+                  index % 3 === 0 ? "gallery-item--full" : "gallery-item--half",
+                ]}
+              >
+                <div class="media-vessel">
+                  <img
+                    src={img}
+                    alt={`${project.data.title} gallery item ${index + 1}`}
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- RELATED WORK -->
+    <section class="related-work section">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <h2 class="section-title">Next Projects</h2>
+        </div>
+        <div class="projects-grid">
+          {
+            relatedProjects.map((p) => (
+              <ProjectThumbnail
+                category={p.data.category}
+                title={p.data.title}
+                link={`/project/${p.id}`}
+                posterUrl={p.data.posterUrl}
+                videoUrl={p.data.videoUrl}
+                logoSrc={p.data.logoSrc}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <ContactSection />
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .project-detail {
+    /* padding-top: var(--header-height); */
+    background-color: var(--white);
+  }
+
+  /* Project Detail Base */
+  .project-detail {
+    /* padding-top: var(--header-height); */
+    background-color: var(--white);
+  }
+
+  .media-vessel {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background-color: var(--F5F5F7);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .media-vessel img,
+  .media-vessel video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Intro Section */
+  .project-intro {
+    padding: 80px 0;
+    border-top: 1px solid var(--DDDDDE);
+  }
+
+  .project-intro__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+  }
+
+  .meta-item {
+    margin-bottom: 40px;
+  }
+
+  .meta-item__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--mono);
+    opacity: 0.4;
+    margin-bottom: 10px;
+  }
+
+  .meta-item__value {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .meta-item__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .meta-item__tags span {
+    font-size: 14px;
+    padding: 4px 12px;
+    border: 1px solid var(--DDDDDE);
+    border-radius: 20px;
+  }
+
+  .project-intro__lead {
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 1.3;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 40px;
+    color: var(--mono);
+  }
+
+  .project-intro__body {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--53555A);
+    max-width: 720px;
+  }
+
+  /* Gallery Section */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .gallery-item--full {
+    grid-column: span 2;
+  }
+
+  .gallery-item--full .media-vessel {
+    aspect-ratio: 21/9;
+  }
+
+  .gallery-item--half .media-vessel {
+    aspect-ratio: 4/5;
+  }
+
+  /* Related Cases */
+  .related-work {
+    padding: 120px 0;
+    background-color: var(--F5F5F7);
+  }
+
+  .section-header {
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .section-title {
+    font-size: 48px;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* Responsive Decorators */
+  @media (max-width: 1024px) {
+    .project-intro__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .projects-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .gallery-item--full,
+    .gallery-item--half {
+      grid-column: span 1;
+    }
+
+    .gallery-item--full .media-vessel,
+    .gallery-item--half .media-vessel {
+      aspect-ratio: 16/10;
+    }
+  }
+</style>

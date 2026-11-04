@@ -1,0 +1,53 @@
+/* ===================================
+   OMG Creative - Buttons & Links
+   Button components and link styles
+   =================================== */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: var(--small-size);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn--primary {
+    background-color: var(--mono);
+    color: var(--white);
+}
+
+.btn--primary:hover {
+    background-color: var(--313339);
+    opacity: 1;
+}
+
+.btn--outline {
+    background-color: transparent;
+    border: 1px solid currentColor;
+}
+
+.learn-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--small-size);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: gap var(--transition-fast);
+}
+
+.learn-more:hover {
+    gap: 12px;
+    opacity: 1;
+}
+
+.learn-more::after {
+    content: '→';
+}

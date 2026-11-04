@@ -1,0 +1,161 @@
+---
+interface Props {
+  category: string;
+  title: string;
+  link: string;
+  videoUrl?: string;
+  posterUrl?: string;
+  logoSrc?: string;
+}
+
+const {
+  category,
+  title,
+  link,
+  videoUrl,
+  posterUrl = "/assets/imgs/placeholder.png",
+  logoSrc,
+  ...rest
+} = Astro.props;
+---
+
+<div
+  class="project-thumbnail animate-on-scroll"
+  data-category={category}
+  {...rest}
+>
+  <a href={link} class="thumbnail-link">
+    <div class="thumbnail-media">
+      {
+        videoUrl ? (
+          <video
+            class="thumbnail-video"
+            data-autoplay
+            muted
+            loop="false"
+            playsinline
+            poster={posterUrl}
+          >
+            <source src={videoUrl} type="video/mp4" />
+          </video>
+        ) : (
+          <img
+            class="thumbnail-img"
+            src={posterUrl}
+            alt={title}
+            loading="lazy"
+          />
+        )
+      }
+      <div class="thumbnail-overlay">
+        {
+          logoSrc && (
+            <img src={logoSrc} alt={`${title} logo`} class="thumbnail-logo" />
+          )
+        }
+      </div>
+    </div>
+
+    <div class="thumbnail-info">
+      <span class="thumbnail-category">{category}</span>
+      <h3 class="thumbnail-title">{title}</h3>
+    </div>
+  </a>
+</div>
+
+<style>
+  .project-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--mono);
+  }
+
+  .thumbnail-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: var(--white);
+  }
+
+  .thumbnail-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .thumbnail-video,
+  .thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-thumbnail:hover .thumbnail-video,
+  .project-thumbnail:hover .thumbnail-img {
+    transform: scale(1.05);
+  }
+
+  .thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--mono-rgb), 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+  }
+
+  .project-thumbnail:hover .thumbnail-overlay {
+    opacity: 1;
+  }
+
+  .thumbnail-logo {
+    max-width: 60%;
+    max-height: 40px;
+    filter: brightness(0) invert(1);
+  }
+
+  .thumbnail-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    background: linear-gradient(
+      to top,
+      rgba(var(--mono-rgb), 0.8),
+      transparent
+    );
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all var(--transition-medium);
+  }
+
+  .project-thumbnail:hover .thumbnail-info {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .thumbnail-category {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 5px;
+    opacity: 0.8;
+  }
+
+  .thumbnail-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+</style>

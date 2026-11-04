@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import WhatWeDo from '../components/WhatWeDo.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Partners from '../components/Partners.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+
+import { getCollection } from 'astro:content';
+
+// Fetch projects from the content collection
+const allProjects = await getCollection('projects');
+const projects = allProjects.sort((a, b) => {
+  return (a.data.order || 0) - (b.data.order || 0);
+});
+---
+
+<Layout>
+  <Header variant="light" />
+  
+  <main>
+    <Hero />
+    
+    <WhatWeDo />
+    
+    {projects.map((project) => (
+      <ProjectCard
+        number={project.data.number}
+        category={project.data.category}
+        title={project.data.title}
+        description={project.data.description}
+        link={`/project/${project.id}`}
+        posterUrl={project.data.posterUrl}
+        videoUrl={project.data.videoUrl}
+        logoSrc={project.data.logoSrc}
+      />
+    ))}
+    
+    <Partners />
+    
+    <ContactSection />
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  main {
+    /* Ensure sections stack properly */
+  }
+</style>

@@ -1,0 +1,17 @@
+/* ===================================
+   OMG Creative - Global Styles
+   Main entry point - imports all CSS modules
+   =================================== */
+
+/* Google Fonts - Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* CSS Modules */
+@import './colors.css';
+@import './typography.css';
+@import './base.css';
+@import './buttons.css';
+@import './video.css';
+@import './animations.css';
+@import './utilities.css';
+@import './responsive.css';

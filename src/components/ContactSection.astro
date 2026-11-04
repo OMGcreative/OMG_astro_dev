@@ -1,0 +1,196 @@
+---
+// Contact section with form and address
+---
+
+<section id="contact" class="contact section section--light">
+  <div class="contact__container container">
+    <div class="contact__info">
+      <div class="contact__address animate-on-scroll">
+        <h3 class="contact__company">OMG! Creative</h3>
+        <p>Level 2, 10 Queens Road*<br>Melbourne Victoria 3004</p>
+        
+        <div class="contact__links">
+          <a href="tel:0396540532">03 9654 0532</a>
+          <a href="mailto:hello@omgcreative.com.au">hello@omgcreative.com.au</a>
+        </div>
+        
+        <a href="https://www.google.com/maps/place/OMG!+Creative/@-37.8382331,144.9743713" target="_blank" rel="noopener" class="contact__directions">
+          *Entry via Queens Lane
+        </a>
+      </div>
+    </div>
+    
+    <div class="contact__form-wrapper animate-on-scroll">
+      <form class="contact__form" action="#" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name*</label>
+            <input type="text" id="firstName" name="firstName" required />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name*</label>
+            <input type="text" id="lastName" name="lastName" required />
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number*</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="industry">Industry*</label>
+          <input type="text" id="industry" name="industry" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company Name*</label>
+          <input type="text" id="company" name="company" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Your message (optional)</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+        
+        <div class="form-group form-group--checkbox">
+          <input type="checkbox" id="privacy" name="privacy" required />
+          <label for="privacy">
+            By clicking this box, you agree to our privacy policies. By clicking submit below, you consent to allow omgcreative.com.au to store and process the personal information submitted above to provide you the content requested.
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn--primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: var(--section-padding) 0;
+    min-height: auto;
+  }
+
+  .contact__container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact__company {
+    font-size: var(--h4-size);
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .contact__info p {
+    font-size: var(--body-size);
+    line-height: 1.6;
+    color: var(--53555A);
+    margin-bottom: 20px;
+  }
+
+  .contact__links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .contact__links a {
+    color: var(--mono);
+    font-weight: 500;
+  }
+
+  .contact__directions {
+    font-size: var(--small-size);
+    color: var(--6A6B70);
+    text-decoration: underline;
+  }
+
+  /* Form Styles */
+  .contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-group label {
+    font-size: var(--small-size);
+    color: var(--6A6B70);
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 12px 0;
+    font-size: var(--body-size);
+    font-family: var(--base-font-family);
+    border: none;
+    border-bottom: 1px solid var(--C6C6C8);
+    background: transparent;
+    color: var(--mono);
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--mono);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-group--checkbox {
+    flex-direction: row;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .form-group--checkbox input {
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .form-group--checkbox label {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .contact__form .btn {
+    align-self: flex-end;
+    min-width: 150px;
+    justify-content: center;
+  }
+
+  @media (max-width: 992px) {
+    .contact__container {
+      grid-template-columns: 1fr;
+      gap: 60px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
