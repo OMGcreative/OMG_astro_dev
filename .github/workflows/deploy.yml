@@ -26,7 +26,7 @@ jobs:
           SITE_URL: https://omgcreative.github.io
           BASE_PATH: /OMG_astro_dev
         with:
-          node-version: 24
+          node-version: 26
           package-manager: npm
           
   deploy:
