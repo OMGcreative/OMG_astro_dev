@@ -22,8 +22,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Install, build, and upload your site
         uses: withastro/action@v3
+        env:
+          SITE_URL: https://omgcreative.github.io
+          BASE_PATH: /OMG_astro_dev
         with:
-          node-version: 22
+          node-version: 24
           package-manager: npm
           
   deploy:

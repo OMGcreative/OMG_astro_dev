@@ -1,4 +1,5 @@
 ---
+import { withBase } from "../utils/paths";
 interface Props {
   number?: string;
   category: string;
@@ -28,12 +29,12 @@ const {
         loop
         playsinline
         preload="auto"
-        poster={posterUrl}
+        poster={withBase(posterUrl)}
       >
-        <source src={videoUrl} type="video/mp4" />
+        <source src={withBase(videoUrl)} type="video/mp4" />
       </video>
     ) : (
-      <img class="video-background" src={posterUrl} alt={title} />
+      <img class="video-background" src={withBase(posterUrl)} alt={title} />
     )
   }
   <div class="video-overlay"></div>
@@ -50,7 +51,7 @@ const {
     >
       {
         logoSrc && (
-          <img src={logoSrc} alt={`${title} logo`} class="project-hero__logo" />
+          <img src={withBase(logoSrc)} alt={`${title} logo`} class="project-hero__logo" />
         )
       }
       <h1 class="project-hero__title">
